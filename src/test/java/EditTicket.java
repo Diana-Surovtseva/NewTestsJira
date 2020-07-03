@@ -1,14 +1,10 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class EditTicket {
@@ -52,26 +48,29 @@ public class EditTicket {
         driver.findElement(By.id("footer-comment-button")).click();
         driver.findElement(By.id("comment")).sendKeys("My comment");
         driver.findElement(By.id("issue-comment-add-submit")).click();
-//            Thread.sleep(5000);
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30).getSeconds());
-//            boolean commentPresent = wait.until(presenceOfElementLocated(By.className("issue-data-block activity-comment twixi-block  expanded focused"))).isDisplayed();
-//        assertEquals(commentPresent, true);
-        // assertTrue(driver.findElement(By.className("issue-data-block activity-comment twixi-block  expanded focused"))).isEnabled();
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String commentText = driver.findElement(By.xpath("//*[@id='issue_actions_container']//child::*[@class='issue-data-block activity-comment twixi-block  expanded focused']//child::*[@class='action-body flooded']")).getText();
+        assertTrue(commentText.contains("My comment"));
     }
 
-
     @Test
-    public void delCommentToTicket() {
 
+    public void dellCommentFromTicket() {
         driver.findElement(By.xpath("//*[@data-issue-key='WEBINAR-11962']")).click();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        driver.findElement(By.xpath("//*[@class='issue-data-block activity-comment twixi-block  expanded'][last()]//child::*[@title='Delete']")).click();
-        //$x("//*[@class='issue-data-block activity-comment twixi-block  expanded'][last()]//child::*[@title='Delete']")
+        WebElement elementList = driver.findElement(By.xpath("//*[@class='issue-data-block activity-comment twixi-block  expanded'][last()]//child::*[@title='Delete']"));
+        elementList.click();
+        String currCommentText = elementList.getText();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -79,11 +78,15 @@ public class EditTicket {
         }
         driver.findElement(By.id("comment-delete-submit")).click();
 
-        ////*[@id="comment-19625"]/div[2]/div/div/text()[2]
+        String commentText = driver.findElement(By.xpath("//*[@id='issue_actions_container']//child::*[@class='issue-data-block activity-comment twixi-block  expanded']//child::*[@class='action-body flooded']")).getText();
+        assertTrue(!commentText.contains(currCommentText));
+
     }
+
 
     @AfterMethod
     public void tearDown() {
         driver.quit();
     }
+
 }

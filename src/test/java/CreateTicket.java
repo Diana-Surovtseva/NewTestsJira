@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public class CreateTicket {
 
     WebDriver driver = null;
@@ -29,10 +31,9 @@ public class CreateTicket {
         driver.findElement(By.id("login-form-password")).sendKeys("DianaSurovtseva");
         driver.findElement(By.id("login")).click();
 
-//wait
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15).getSeconds());
-        boolean elementIsPresent = wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
-        assertEquals(elementIsPresent, true);
+        //boolean elementIsPresent = wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
+        //assertEquals(elementIsPresent, true);
 
         // wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
 
@@ -50,7 +51,7 @@ public class CreateTicket {
             e.printStackTrace();
         }
 
-        wait.until(presenceOfElementLocated(By.id("project-field"))).isEnabled();
+        //wait.until(presenceOfElementLocated(By.id("project-field"))).isEnabled();
         driver.findElement(By.id("project-field")).clear();
         driver.findElement(By.id("project-field")).sendKeys("Webinar (WEBINAR)");
         driver.findElement(By.id("project-field")).sendKeys(Keys.TAB);
@@ -61,7 +62,7 @@ public class CreateTicket {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        wait.until(presenceOfElementLocated(By.id("issuetype-field"))).isEnabled();
+        //wait.until(presenceOfElementLocated(By.id("issuetype-field"))).isEnabled();
 
         driver.findElement(By.id("issuetype-field")).clear();
         driver.findElement(By.id("issuetype-field")).sendKeys("Task");
@@ -81,17 +82,11 @@ public class CreateTicket {
         driver.findElement(By.id("create-issue-submit")).click();
 
         boolean popUpIsPresent = wait.until(presenceOfElementLocated(By.className("aui-message-success"))).isDisplayed();
-
-        driver.findElement(By.xpath("//*[contains(text(),'WEBINAR')]"));
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //driver.switchTo().alert();
-        String alertText = driver.switchTo().alert().getText();
-        System.out.println(alertText);
         assertEquals(popUpIsPresent, true);
+
+
+        String popUpText = driver.findElement(By.className("aui-message-success")).getText();
+        assertTrue(popUpText.contains("WEBINAR"));
 
     }
 
