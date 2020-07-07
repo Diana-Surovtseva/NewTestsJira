@@ -6,8 +6,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utils.WebDriverFactory;
 
 import java.time.Duration;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -15,6 +18,7 @@ import static org.testng.Assert.assertTrue;
 public class CreateTicket {
 
     WebDriver driver = null;
+    WebDriverWait wait;
 
     @BeforeMethod
     public void setUp() {
@@ -31,51 +35,58 @@ public class CreateTicket {
         driver.findElement(By.id("login-form-password")).sendKeys("DianaSurovtseva");
         driver.findElement(By.id("login")).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15).getSeconds());
-        //boolean elementIsPresent = wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
-        //assertEquals(elementIsPresent, true);
+         wait = new WebDriverWait(driver, Duration.ofSeconds(25).getSeconds());
+        boolean elementIsPresent = wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
+        assertEquals(elementIsPresent, true);
 
-        // wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
+        wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
+        wait.until(presenceOfElementLocated(By.id("create_link"))).isEnabled();
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         driver.findElement(By.id("create_link")).click();
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
-        //wait.until(presenceOfElementLocated(By.id("project-field"))).isEnabled();
+        wait.until(presenceOfElementLocated(By.xpath("//*[@title='Create Issue']"))).isDisplayed();
+        wait.until(presenceOfElementLocated(By.xpath("//*[@title='Create Issue']"))).isDisplayed();
         driver.findElement(By.id("project-field")).clear();
         driver.findElement(By.id("project-field")).sendKeys("Webinar (WEBINAR)");
         driver.findElement(By.id("project-field")).sendKeys(Keys.TAB);
 
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //wait.until(presenceOfElementLocated(By.id("issuetype-field"))).isEnabled();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        wait.until(elementToBeClickable(By.id("issuetype-field"))).isEnabled();
+        wait.until(elementToBeClickable(By.id("issuetype-field"))).isEnabled();
 
         driver.findElement(By.id("issuetype-field")).clear();
         driver.findElement(By.id("issuetype-field")).sendKeys("Task");
         driver.findElement(By.id("issuetype-field")).sendKeys(Keys.TAB);
 
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+    wait.until(elementToBeClickable(By.id("summary"))).isEnabled();
         driver.findElement(By.id("summary")).sendKeys("Test bug");
+        driver.findElement(By.id("summary")).sendKeys(Keys.TAB);
+
+        wait.until(presenceOfElementLocated(By.id("reporter-field"))).isEnabled();
+        wait.until(presenceOfElementLocated(By.id("reporter-field"))).isEnabled();
         driver.findElement(By.id("reporter-field")).clear();
         driver.findElement(By.id("reporter-field")).sendKeys("DianaSurovtseva");
         driver.findElement(By.id("reporter-field")).sendKeys(Keys.TAB);

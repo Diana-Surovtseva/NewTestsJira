@@ -8,4 +8,7 @@
             <class name="EditTicket"/>
         </classes>
     </test>
+    <listeners>
+        <listener class-name="utils.TestNGListener"/>
+    </listeners>
 </suite>
